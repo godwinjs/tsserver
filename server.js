@@ -21,9 +21,7 @@ const dev = process.env.NODE_ENV !== 'production'
     // })
   mongoose.set("strictQuery", false);
   mongoose
-    .connect(process.env.ATLAS_URI, {
-      dbName: process.env.DB_NAME,
-    })
+    .connect(process.env.ATLAS_URI)
     .then(() => consoleMessage.successMessage("DB connection established."))
     .catch((error) => consoleMessage.errorMessage(error.message));
     // 
