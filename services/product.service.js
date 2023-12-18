@@ -20,9 +20,9 @@ exports.galleryUpdate = async ({ pid }) => {
 
 /* insert new product */
 exports.createProduct = async (data) => {
-  console.log('data.produt.service', data)
+  // console.log('data.produt.service', data)
   const result = await Product.create(data);
-  console.log('result.produt.service', result)
+  // console.log('result.produt.service', result)
   await Subcategory.findByIdAndUpdate(result.subcategory, {
     $push: { products: result._id },
   });

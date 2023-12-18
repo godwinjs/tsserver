@@ -36,7 +36,7 @@ router
 
 // insert new product
 router.post("/create", productController.createProduct);
-console.log(router)
+
 
 // display all product
 router.get("/all", productController.displayProducts);

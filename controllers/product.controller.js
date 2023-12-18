@@ -38,8 +38,7 @@ exports.galleryUpdate = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   try {
     const result = await productService.createProduct(req.body);
-    console.log(result)
-
+    
     res.status(201).json({
       acknowledgement: true,
       message: "Created",

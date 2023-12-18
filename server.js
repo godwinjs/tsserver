@@ -10,7 +10,7 @@ const app = require("./app");
 const consoleMessage = require("./utils/console.util");
 
 /* Constants and Vars */
-const port = parseInt(process.env.PORT, 10) || 3000
+const port = parseInt(process.env.PORT, 10) || 5001
 const dev = process.env.NODE_ENV !== 'production'
 // const nextApp = next({dev})
 // const handle = nextApp.getRequestHandler()
