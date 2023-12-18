@@ -1,5 +1,7 @@
 // const express = require('express');
 // const next = require('next');
+// require("./controllers/product.controller")
+// require("./services/product.service")
 /* external import */
 const mongoose = require("mongoose");
 

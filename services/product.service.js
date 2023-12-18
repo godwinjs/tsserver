@@ -2,6 +2,7 @@
 const Brand = require("../models/brand.model");
 const Product = require("../models/product.model");
 const Subcategory = require("../models/subcategory.model");
+const Category = require("../models/category.model");
 const User = require("../models/user.model");
 const remove = require("../utils/remove.util");
 
@@ -15,14 +16,21 @@ exports.galleryUpdate = async ({ pid }) => {
   const product = await Product.findById(pid);
   if (product.gallery.length) galleryRemove(product.gallery);
 };
+// remove variant
 
 /* insert new product */
 exports.createProduct = async (data) => {
+  console.log('data.produt.service', data)
   const result = await Product.create(data);
+  console.log('result.produt.service', result)
   await Subcategory.findByIdAndUpdate(result.subcategory, {
     $push: { products: result._id },
   });
   await Brand.findByIdAndUpdate(result.brand, {
+    $push: { products: result._id },
+  });
+  console.log(result.category)
+  await Category.findByIdAndUpdate(result.category, {
     $push: { products: result._id },
   });
   return result;
@@ -35,6 +43,10 @@ exports.displayProducts = async ({ page, limit }) => {
     .limit(limit)
     .sort("-updatedAt")
     .populate([
+      {
+        path: "category",
+        select: "title",
+      },
       {
         path: "subcategory",
         select: "title",
@@ -50,6 +62,7 @@ exports.displayProducts = async ({ page, limit }) => {
     ]);
 
   const count = await Product.estimatedDocumentCount();
+  // console.log(result)
   return { products: result, count };
 };
 
@@ -126,6 +139,10 @@ exports.removeProduct = async ({ id }) => {
 
   // remove from subcategory
   await Subcategory.findByIdAndUpdate(result.subcategory, {
+    $pull: { products: result._id },
+  });
+  // remove from category
+  await Category.findByIdAndUpdate(result.category, {
     $pull: { products: result._id },
   });
 

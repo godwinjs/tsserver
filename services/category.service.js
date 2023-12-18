@@ -1,6 +1,7 @@
 /* internal import */
 const Category = require("../models/category.model");
 const Subcategory = require("../models/subcategory.model");
+const Product = require("../models/product.model");
 const remove = require("../utils/remove.util");
 
 /* insert new category */
@@ -47,6 +48,12 @@ exports.removeCategory = async ({ id }) => {
       $unset: { category: result._id },
     });
   });
+    // remove from product
+    result.products.forEach(async (product) => {
+      await Product.findByIdAndUpdate(product, {
+        $unset: { category: result._id },
+      });
+    });
 
   return result;
 };

@@ -38,6 +38,7 @@ exports.galleryUpdate = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   try {
     const result = await productService.createProduct(req.body);
+    console.log(result)
 
     res.status(201).json({
       acknowledgement: true,
@@ -52,8 +53,10 @@ exports.createProduct = async (req, res, next) => {
 
 /* display all product */
 exports.displayProducts = async (req, res, next) => {
+  console.log('req.query', req.query)
   try {
     const result = await productService.displayProducts(req.query);
+    console.log('result.product.controller', result)
 
     res.status(200).json({
       acknowledgement: true,

@@ -1,6 +1,7 @@
 /* external imports */
 const mongoose = require("mongoose");
 const validator = require("validator");
+const { ObjectId } = mongoose.Schema.Types;
 
 /* create category schema */
 const categorySchema = new mongoose.Schema(
@@ -45,6 +46,13 @@ const categorySchema = new mongoose.Schema(
         message: "Won't able to add more than 5 tags",
       },
     },
+    // for products
+    products: [
+      {
+        type: ObjectId,
+        ref: "Product",
+      },
+    ],
 
     // for sub-categories
     subcategories: [

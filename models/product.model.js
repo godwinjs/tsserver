@@ -69,6 +69,11 @@ const productSchema = new mongoose.Schema(
       min: [5, "Price unit won't be less than 5"],
     },
 
+    // for category
+    category: {
+      type: ObjectId,
+      ref: "Category",
+    },
     // for subcategory
     subcategory: {
       type: ObjectId,
@@ -118,9 +123,30 @@ const productSchema = new mongoose.Schema(
         validator: function (value) {
           return value.length <= 5;
         },
-        message: "Won't able to add more than 5 tags",
+        message: "Won't be able to add more than 5 tags",
       },
     },
+
+    
+    // for status
+    status: {
+      type: String,
+      // required: [true, "Please, provide a product status or promotion"],
+      default: 'none',
+      trim: true,
+      maxLength: [50, "Product status or promotion text should be at most 40 characters"],
+    },
+    // for allOfsizes```````````````
+    allOfSizes: {
+      type: [{ type: String, trim: true }],
+      validate: {
+        validator: function (value) {
+          return value.length <= 10;
+        },
+        message: "Won't able to add more than 10 Sizes or product type",
+      },
+    },
+    
 
     // for category  time stamps
     createdAt: {
@@ -157,6 +183,71 @@ productSchema.pre("save", function (next) {
 
 /* create product schema */
 const Product = mongoose.model("Product", productSchema);
+console.log('Product.schema.model',Product)
 
 /* export product schema */
 module.exports = Product;
+
+/*    // for variant
+    variant: {
+      type: String,
+      // required: [true, "Please, provide a product status or promotion"],
+      trim: true,
+      default: "",
+      maxLength: [5, "Product variant type text should be at most 5 characters"],
+    },
+    // for variants`````````````
+    variants: {
+      type: [
+        {
+          name: {
+            type: String,
+            default: "",
+          }, 
+          color: {
+            type: String,
+            default: "",
+          },
+          //smaller image on product-card
+          thumbnail: {
+            type: {
+              url: {
+                type: String,
+                default: "",
+                validate: [
+                  validator.isURL,
+                  "Please, provide a valid thumbnail photo URL",
+                ],
+              },
+              public_id: {
+                type: String,
+                default: "",
+              },
+            } 
+          },
+          //bigger image in /product-detail
+          featuredImage: {
+            type: {
+                url: {
+                  type: String,
+                  default: "",
+                  validate: [
+                    validator.isURL,
+                    "Please, provide a valid featured image photo URL",
+                  ],
+                },
+                public_id: {
+                  type: String,
+                  default: "",
+                },
+              }
+          }
+        },
+      ],
+      validate: {
+        validator: function (value) {
+          return value.length <= 5;
+        },
+        message: "Won't able to add more than 5 gallery",
+      },
+    },*/

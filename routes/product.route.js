@@ -16,6 +16,18 @@ router
   .post(upload.single("thumbnail"), photoController.uploadPhoto)
   .patch(upload.single("thumbnail"), photoController.updatePhoto);
 
+// upload & update product variantThumbnail
+// router
+//   .route("/variantThumbnail")
+//   .post(upload.single("variantThumbnail"), photoController.uploadPhoto)
+//   .patch(upload.single("variantThumbnail"), photoController.updatePhoto);
+
+// // upload & update product variantFeaturedImage
+// router
+//   .route("/variantFeaturedImage")
+//   .post(upload.single("variantFeaturedImage"), photoController.uploadPhoto)
+//   .patch(upload.single("variantFeaturedImage"), photoController.updatePhoto);
+
 // upload & update product gallery
 router
   .route("/gallery")
@@ -24,6 +36,7 @@ router
 
 // insert new product
 router.post("/create", productController.createProduct);
+console.log(router)
 
 // display all product
 router.get("/all", productController.displayProducts);
