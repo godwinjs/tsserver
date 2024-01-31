@@ -15,12 +15,20 @@ const productSchema = new mongoose.Schema(
       maxLength: [100, "Product title would be at most 100 characters"],
     },
 
+    // for details
+    details: {
+      type: String,
+      required: [true, "Please, provide product details"],
+      trim: true,
+      maxLength: [50000, "Product description would be at most 50000 characters"],
+    },
+
     // for description
     description: {
       type: String,
       required: [true, "Please, provide product description"],
       trim: true,
-      maxLength: [2000, "Product description would be at most 2000 characters"],
+      maxLength: [20000, "Product description would be at most 2000 characters"],
     },
 
     // for thumbnail
