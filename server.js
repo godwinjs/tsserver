@@ -5,6 +5,10 @@
 /* external import */
 const mongoose = require("mongoose");
 
+
+require("./controllers/settings.controller");
+require("./services/settings.service")
+
 /* internal imports */
 const app = require("./app");
 const consoleMessage = require("./utils/console.util");
@@ -15,12 +19,12 @@ const dev = process.env.NODE_ENV !== 'production'
 // const nextApp = next({dev})
 // const handle = nextApp.getRequestHandler()
 
-/* database connection */
+/* database connection */ 
 // nextApp.prepare().then(() => {
     /** */
     // app.get('*', (req, res) => {
     //   return handle(req, res)
-    // })
+    // }) 
   mongoose.set("strictQuery", false);
   mongoose
     .connect(process.env.ATLAS_URI)
