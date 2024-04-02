@@ -70,8 +70,8 @@ exports.displayUsers = async (req, res, next) => {
     next(error);
   }
 };
-
-// display specific user
+ 
+// display specific user 
 exports.displayUser = async (req, res, next) => {
   try {
     const result = await userService.displayUser(req.params);

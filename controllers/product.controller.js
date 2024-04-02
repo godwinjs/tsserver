@@ -55,7 +55,7 @@ exports.displayProducts = async (req, res, next) => {
   console.log('req.query', req.query)
   try {
     const result = await productService.displayProducts(req.query);
-    console.log('result.product.controller', result)
+    console.log('result.product.controller', "sent " + result.count + " to the front end at TIME: " + new Date().getDate())
 
     res.status(200).json({
       acknowledgement: true,

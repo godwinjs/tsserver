@@ -6,8 +6,8 @@
 const mongoose = require("mongoose");
 
 
-require("./controllers/settings.controller");
-require("./services/settings.service")
+require("./controllers/user.controller")
+require("./services/user.service")
 
 /* internal imports */
 const app = require("./app");

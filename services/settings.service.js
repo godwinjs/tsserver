@@ -38,5 +38,21 @@ exports.displaySettings = async ({ page, limit }) => {
 
 /* display specific settings */
 exports.displaySetting = async ({ id }) => {
+  console.log("displaying settings...")
   return await Settings.findById(id);
+};
+
+/* remove specific settings */
+exports.removeSettings = async ({ id }) => {
+  const result = await Settings.findByIdAndDelete(id);
+  // if (result.gallery.length) {
+  //   // remove thumbnail
+  //   remove(result.thumbnail.public_id);
+
+  //   // remove gallery
+  //   galleryRemove(result.gallery);
+  // }
+  // remove(result)
+
+  return result;
 };

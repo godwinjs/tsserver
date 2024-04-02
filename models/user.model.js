@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       url: {
         type: String,
-        validate: [validator.isURL, "Please provide a valid avatar URL"],
+        // validate: [validator.isURL, "Please provide a valid avatar URL"],
         default: "",
       },
       public_id: {
@@ -81,14 +81,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [
         true,
-        "Please, provide your phone number, i.e.: +8801xxxxxxxxx",
+        "Please, provide your phone number, i.e.: +234xxxxxxxxx",
       ],
-      validate: {
-        validator: (value) =>
-          validator.isMobilePhone(value, "bn-BD", { strictMode: true }),
-        message:
-          "Phone number {VALUE} is not valid. Please, retry like +8801xxxxxxxxx",
-      },
+      // validate: {
+      //   validator: (value) =>
+      //     validator.isMobilePhone(value, "bn-BD", { strictMode: true }),
+      //   message:
+      //     "Phone number {VALUE} is not valid. Please, retry like +234xxxxxxxxx",
+      // },
     },
 
     // for user role to be played

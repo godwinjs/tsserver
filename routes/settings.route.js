@@ -17,9 +17,9 @@ router.get("/all", settingsController.displaySettings);
 // display, update and remove specific product
 router
   .route("/:id")
-  .get(settingsController.displaySetting)
-//   .patch(settingsController.updateSettings)
-//   .delete(settingsController.removeSettings);
+  .delete(settingsController.removeSettings)
+  .get(settingsController.displaySetting);
+  // .patch(settingsController.updateSettings)
 
 /* export product router */
 module.exports = router;

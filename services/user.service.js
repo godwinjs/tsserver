@@ -106,6 +106,7 @@ exports.displayUser = async ({ id }) => {
  * permanently disable user credentials
  */
 exports.updateUser = async (id, data) => {
+  console.log("user.service updateUser..", [id, data])
   if (Object.keys(data).includes("cart")) {
     return await User.findByIdAndUpdate(
       id,

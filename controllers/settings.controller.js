@@ -4,7 +4,7 @@ const settingsService = require("../services/settings.service");
 /* create new settings */
 exports.createSettings = async (req, res, next) => {
   console.log("settings.controller",req.body)
-  
+
     try {
       const result = await settingsService.createSettings(req.body);
       
@@ -53,3 +53,19 @@ exports.displaySetting = async (req, res, next) => {
       next(error);
     }
   };
+
+/* remove specific settings */
+exports.removeSettings = async (req, res, next) => {
+  try {
+    const result = await productService.removeSettings(req.params);
+
+    res.status(202).json({
+      acknowledgement: true,
+      message: "Accepted",
+      description: "Successfully remove specific settings",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
