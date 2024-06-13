@@ -10,6 +10,7 @@ exports.createBrand = async (data) => {
 };
 
 /* display all brands */
+// */
 exports.displayBrands = async ({ page, limit }) => {
   const result = await Brand.find({})
     .skip((Number(page) - 1) * limit)

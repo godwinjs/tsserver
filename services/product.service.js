@@ -67,7 +67,7 @@ exports.displayProducts = async ({ page, limit, query }) => {
         text: {
           query,
           fuzzy: {
-            maxEdits: 1,
+            maxEdits: 3,
             prefixLength: 3,
             maxExpansions: 50
           },
