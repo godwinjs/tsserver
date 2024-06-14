@@ -79,7 +79,8 @@ exports.displayProducts = async ({ page, limit, query }) => {
     })
   }
 
-  const result = await Product.skip((Number(page) - 1) * limit)
+  const result = await Product
+    .skip((Number(page) - 1) * limit)
     .limit(limit)
     .sort("-updatedAt")
     .populate([
