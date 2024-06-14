@@ -69,6 +69,25 @@ exports.displayProducts = async (req, res, next) => {
   }
 };
 
+/* display searched product */
+exports.searchProducts = async (req, res, next) => {
+  console.log('req.query', req.query)
+  try {
+    const result = await productService.searchProducts(req.query);
+    console.log('result.product.controller', "sent " + result.count + " to the front end at TIME: " + new Date().getDate())
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: "Successfully Searched all product credentials",
+      count: result.count,
+      data: result.products,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /* display specific product */
 exports.displayProduct = async (req, res, next) => {
   try {

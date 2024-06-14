@@ -41,6 +41,9 @@ router.post("/create", productController.createProduct);
 // display all product
 router.get("/all", productController.displayProducts);
 
+// display all product
+router.get("/search", productController.searchProducts);
+
 // display, update and remove specific product
 router
   .route("/:id")

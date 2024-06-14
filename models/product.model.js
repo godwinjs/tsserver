@@ -189,6 +189,9 @@ productSchema.pre("save", function (next) {
   next();
 });
 
+//for search
+productSchema.index({ title: 'text', details: 'text', price: 'text', description: 'text', category: 'text' });
+
 /* create product schema */
 const Product = mongoose.model("Product", productSchema);
 console.log('Product.schema.model',Product)

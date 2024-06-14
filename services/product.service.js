@@ -79,7 +79,37 @@ exports.displayProducts = async ({ page, limit, query }) => {
   //   })
   // }
 
-  const result = await Product.find({})
+  const result = await Product.find({ })
+    .skip((Number(page) - 1) * limit)
+    .limit(limit)
+    .sort("-updatedAt")
+    .populate([
+      {
+        path: "category",
+        select: "title",
+      },
+      {
+        path: "subcategory",
+        select: "title",
+      },
+      {
+        path: "brand",
+        select: "title",
+      },
+      {
+        path: "store",
+        select: "title",
+      },
+    ]);
+
+  const count = await Product.estimatedDocumentCount();
+  // console.log(result)
+  return { products: result, count };
+};
+/* display all products */
+exports.searchProducts = async ({ query }) => {
+
+  const result = await Product.find({ $text: { $search: query } })
     .skip((Number(page) - 1) * limit)
     .limit(limit)
     .sort("-updatedAt")
