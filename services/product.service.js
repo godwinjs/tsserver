@@ -38,48 +38,48 @@ exports.createProduct = async (data) => {
 
 /* display all products */
 exports.displayProducts = async ({ page, limit, query }) => {
-  const skip = (Number(page) - 1) * limit;
-  const sort = "-updatedAt";
-  const populate = [
-    {
-      path: "category",
-      select: "title",
-    },
-    {
-      path: "subcategory",
-      select: "title",
-    },
-    {
-      path: "brand",
-      select: "title",
-    },
-    {
-      path: "store",
-      select: "title",
-    },
-  ]
-  const pipeline = [{ $skip: skip }, { $limit: limit }, {$sort: sort}, {$populate: populate}]
+  // const skip = (Number(page) - 1) * limit;
+  // const sort = "-updatedAt";
+  // const populate = [
+  //   {
+  //     path: "category",
+  //     select: "title",
+  //   },
+  //   {
+  //     path: "subcategory",
+  //     select: "title",
+  //   },
+  //   {
+  //     path: "brand",
+  //     select: "title",
+  //   },
+  //   {
+  //     path: "store",
+  //     select: "title",
+  //   },
+  // ]
+  // const pipeline = [{ $skip: skip }, { $limit: limit }, {$sort: sort}, {$populate: populate}]
 
-  if (query) {
-    pipeline.unshift({
-      $search: {
-        index: 'search',
-        text: {
-          query,
-          fuzzy: {
-            maxEdits: 3,
-            prefixLength: 3,
-            maxExpansions: 50
-          },
-          path: {
-            wildcard: '*'
-          }
-        }
-      }
-    })
-  }
+  // if (query) {
+  //   pipeline.unshift({
+  //     $search: {
+  //       index: 'search',
+  //       text: {
+  //         query,
+  //         fuzzy: {
+  //           maxEdits: 3,
+  //           prefixLength: 3,
+  //           maxExpansions: 50
+  //         },
+  //         path: {
+  //           wildcard: '*'
+  //         }
+  //       }
+  //     }
+  //   })
+  // }
 
-  const result = await Product
+  const result = await Product.find({})
     .skip((Number(page) - 1) * limit)
     .limit(limit)
     .sort("-updatedAt")
