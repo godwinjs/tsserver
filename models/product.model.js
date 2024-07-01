@@ -15,6 +15,18 @@ const productSchema = new mongoose.Schema(
       maxLength: [100, "Product title would be at most 100 characters"],
     },
 
+    // for Best Seller
+    bestSeller: {
+      type: Boolean,
+      default: false,
+    },
+
+    // for Expert Choice
+    expertChoice: {
+      type: Boolean,
+      default: false,
+    },
+
     // for details
     details: {
       type: String,
