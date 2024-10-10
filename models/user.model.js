@@ -7,6 +7,14 @@ const { ObjectId } = mongoose.Schema.Types;
 /* create user schema */
 const userSchema = new mongoose.Schema(
   {
+    // next auth providers as needed
+    authProvider: {
+      type: String,
+      enum: ['local', 'google'], 
+      required: true
+    },
+    isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String },
     // for user full name
     name: {
       type: String,
@@ -26,31 +34,36 @@ const userSchema = new mongoose.Schema(
     // for user initial password
     password: {
       type: String,
-      required: [true, "Please, provide a strong password"],
+      required: false,
       validate: {
-        validator: (value) =>
-          validator.isStrongPassword(value, {
-            minUppercase: 1,
-            minLowercase: 1,
-            minNumbers: 1,
-            minSymbols: 1,
-          }),
+        validator: function(value) {
+          // Only validate if a password is provided
+          if (value) {
+            return validator.isStrongPassword(value, {
+              minUppercase: 1,
+              minLowercase: 1,
+              minNumbers: 1,
+              minSymbols: 1,
+            });
+          }
+          return true; // If no password, validation passes
+        },
         message:
-          "Password {VALUE} should contain minimum 1 => uppercase, lowercase, number and symbol",
+          "Password should contain minimum 1 => uppercase, lowercase, number and symbol",
       },
       minLength: [8, "Password should be at least 8 characters"],
-      maxLength: [20, "Password should be at most 20 characters"],
+      maxLength: [80, "Password should be at most 20 characters"],
     },
 
     // for user confirm password
     confirmPassword: {
       type: String,
-      required: [true, "Please, retype your password to confirm"],
+      required: [false, "Please, retype your password to confirm"],
       validate: {
         validator: function (value) {
           return value === this.password;
         },
-        message: "Password won't match. Please, try again",
+        message: "Password don't match. Please, try again",
       },
     },
 
@@ -71,24 +84,26 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: {
-        values: ["male", "female", "binary"],
+        values: ["male", "female", "binary", "rather not say"],
         message: "Gender would be male/female/binary",
       },
+        default: "rather not say",
     },
 
     // for user contact number
     phone: {
       type: String,
-      required: [
-        true,
-        "Please, provide your phone number, i.e.: +234xxxxxxxxx",
-      ],
+      // required: [
+      //   false,
+      //   "Please, provide your phone number, i.e.: +234xxxxxxxxx",
+      // ],
       // validate: {
       //   validator: (value) =>
       //     validator.isMobilePhone(value, "bn-BD", { strictMode: true }),
       //   message:
       //     "Phone number {VALUE} is not valid. Please, retry like +234xxxxxxxxx",
       // },
+      default: ""
     },
 
     // for user role to be played
@@ -119,7 +134,7 @@ const userSchema = new mongoose.Schema(
       required: false,
     },
 
-    // for carting orders
+    // for carting products
     cart: [
       {
         product: {
@@ -135,6 +150,40 @@ const userSchema = new mongoose.Schema(
           default: Date.now,
         },
       },
+    ],
+    // for orders
+    orders: [
+      {
+        type: String,
+        required: [true, "Please, provide order ID"],
+        trim: true,
+      },
+      [
+        {
+          product: {
+            type: ObjectId,
+            ref: "Product",
+          },
+          quantity: {
+            type: Number,
+            min: [1, "Quantity won't be less than 1"],
+          },
+          cartedAt: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+      {
+        type: String,
+        required: [true, "Please, provide order status"],
+        trim: true,
+      },
+      {
+        type: String,
+        required: [true, "Please, provide order date"],
+        trim: true,
+      }
     ],
 
     // for store creation
@@ -165,21 +214,28 @@ userSchema.methods.encryptedPassword = function (password) {
 };
 
 /* middleware to encrypt password */
+// userSchema.pre("save", async function (next) {
+//   try {
+//     // initialize encrypted password
+//     if (!this.isModified("password")) {
+//       return next();
+//     }
+
+//     // encrypt password
+//     this.password = this.encryptedPassword(this.password);
+
+//     // after encryption remove confirm password field
+//     this.confirmPassword = undefined;
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 userSchema.pre("save", async function (next) {
-  try {
-    // initialize encrypted password
-    if (!this.isModified("password")) {
-      return next();
-    }
-
-    // encrypt password
+  if (this.isModified("password") && this.password) {
     this.password = this.encryptedPassword(this.password);
-
-    // after encryption remove confirm password field
-    this.confirmPassword = undefined;
-  } catch (error) {
-    next(error);
   }
+  this.confirmPassword = undefined;
+  next();
 });
 
 /* compare passwords as sign in proportion */
