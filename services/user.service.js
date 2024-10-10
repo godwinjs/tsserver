@@ -12,7 +12,17 @@ async function findByEmail(email) {
 
 /* sign up an user */
 exports.signUp = async (data) => {
-  return await User.create(data);
+  const result = await findByEmail(data.email);
+
+  if(result) {
+    if( result.authProvider === 'local') {
+      return { message: "Exists", description: "User already exists, Login with email and password instead"}
+    }
+
+    return { message: "Exists", description: "User already exists, \"Continue with Google\" authentication instead"}
+  }
+
+  return await User.create(data)
 };
 
 /* sign in an user */
