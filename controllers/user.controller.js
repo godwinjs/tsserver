@@ -8,8 +8,8 @@ exports.signUp = async (req, res, next) => {
 
     res.status(201).json({
       acknowledgement: true,
-      message: "Created",
-      description:
+      message: result.message || "Created",
+      description: result.description ||
         "Successfully register new user credentials",
       data: result,
     });
