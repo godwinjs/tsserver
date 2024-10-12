@@ -151,39 +151,64 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    
     // for orders
     orders: [
       {
-        type: String,
-        required: [true, "Please, provide order ID"],
-        trim: true,
-      },
-      [
-        {
-          product: {
-            type: ObjectId,
-            ref: "Product",
-          },
-          quantity: {
-            type: Number,
-            min: [1, "Quantity won't be less than 1"],
-          },
-          cartedAt: {
-            type: Date,
-            default: Date.now,
-          },
+        orderID: {
+          type: String,
+          required: [true, "Please, provide order ID"],
+          trim: true,
         },
-      ],
-      {
-        type: String,
-        required: [true, "Please, provide order status"],
-        trim: true,
+        products: [
+          {
+            description: {
+              type: String,
+              required: [true, "Please, provide product description"],
+              trim: true,
+            },
+            image: {
+              type: String,
+              required: [true, "Please, provide product image"],
+              trim: true,
+            },
+            status: {
+              type: String,
+              required: [true, "Please, provide product status"],
+              trim: true,
+            },
+            price: {
+              type: Number,
+              required: [true, "Please, provide product price"],
+              trim: true,
+            },
+            title: {
+              type: String,
+              required: [true, "Please, provide product title"],
+              trim: true,
+            },
+            _id: {
+              type: String,
+              required: [true, "Please, provide product ID"],
+              trim: true,
+            },
+            quantity: {
+              type: Number,
+              min: [1, "Quantity won't be less than 1"],
+            }
+          },
+        ],
+        status: {
+          type: String,
+          required: [true, "Please, provide order status"],
+          trim: true,
+        },
+        orderDate: {
+          type: String,
+          required: [true, "Please, provide order date"],
+          trim: true,
+        }
       },
-      {
-        type: String,
-        required: [true, "Please, provide order date"],
-        trim: true,
-      }
     ],
 
     // for store creation
